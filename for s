@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>闪耀圣诞树</title>
+    <style>
+        body {
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .tree {
+            position: relative;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 250px solid #064e3b; /* 深绿色树体 */
+            filter: drop-shadow(0 0 20px #10b981);
+        }
+        /* 树干 */
+        .tree::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: #451a03;
+            bottom: -310px;
+            left: -20px;
+        }
+        /* 装饰灯闪烁动画 */
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+        .light {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .star {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            font-size: 40px;
+            color: #fbbf24;
+            text-shadow: 0 0 20px #f59e0b;
+            animation: blink 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="tree">
+        <div class="star">★</div>
+        </div>
+
+    <script>
+        const tree = document.querySelector('.tree');
+        const colors = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#ff00ff'];
+        
+        // 随机生成 50 个发光的小灯泡
+        for (let i = 0; i < 50; i++) {
+            const light = document.createElement('div');
+            light.className = 'light';
+            
+            // 计算灯泡在三角形内的随机位置
+            const row = Math.random() * 230;
+            const widthAtRow = (row / 250) * 150;
+            const left = (Math.random() - 0.5) * 2 * widthAtRow;
+            
+            light.style.top = row + 'px';
+            light.style.left = left + 'px';
+            light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            light.style.boxShadow = `0 0 10px ${light.style.backgroundColor}`;
+            light.style.animation = `blink ${1 + Math.random()}s infinite`;
+            
+            tree.appendChild(light);
+        }
+    </script>
+</body>
+</html>
